@@ -1,0 +1,39 @@
+<!--
+ * @Descripttion: svg basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-16 10:45:33
+ * @LastEditTime: 2020-08-16 11:01:33
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\02.svg\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>svg basic</title>
+</head>
+
+<body>
+    <svg width="2800" height="800">
+        <!-- 绘制一个 宽高50，颜色为红色的矩形 -->
+        <rect width="50" height="50" style="fill: red;"></rect>
+
+        <!-- 绘制线条：起点坐标为 x1 y1，终点坐标为 x2 y2，线条颜色和宽度分别为 蓝色 1 -->
+        <line x1="100" y1="100" x2="250" y2="75" style="stroke: blue;stroke-width:1;"></line>
+        <line x1="250" y1="75" x2="300" y2="100" style="stroke: blue;stroke-width:1;"></line>
+
+
+        <!-- 绘制圆：圆心xy坐标，圆半径为50，线段的颜色和宽度为 绿色 2，圆中填充的颜色为红色 -->
+        <circle cx="200" cy="200" r="50" stroke="green" stroke-width="2" fill="red"></circle>
+        <!-- 和上面的效果是一样的  -->
+        <circle cx="400" cy="400" r="50" style="stroke: green; stroke-width:2; fill:red;"></circle>
+
+        <!-- 画点 -->
+        <line x1="300" y1="300" x2="301" y2="301" stroke="blue" stroke-width="2"></line>
+    </svg>
+</body>
+
+</html>

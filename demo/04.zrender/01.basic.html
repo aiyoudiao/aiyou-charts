@@ -1,0 +1,92 @@
+<!--
+ * @Descripttion: zrender basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-16 11:12:28
+ * @LastEditTime: 2020-08-16 11:28:09
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\04.zrender\01.basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zrender basic</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/zrender/4.3.2/zrender.js"></script>
+</head>
+
+<body>
+
+    <div id="container" style="width:800px; height:800px;"></div>
+
+    <script>
+        const zr = zrender.init(document.getElementById('container'))
+        /* 矩形对象 */
+        const rect = new zrender.Rect({
+            shape: {
+                x: 0,
+                y: 0,
+                width: 50,
+                height: 50
+            },
+            style: {
+                fill: 'red',
+                lineWidth: 0
+            }
+        })
+
+        /* 折线对象 */
+        const line = new zrender.Polyline({
+            shape: {
+                points: [
+                    [100, 100],
+                    [250, 75],
+                    [300, 100]
+                ]
+            },
+            style: {
+                stroke: 'blue',
+                lineWIdth: 1
+            }
+        })
+
+        /* 圆对象 */
+        const circle = new zrender.Circle({
+            shape: {
+                cx: 200,
+                cy: 200,
+                r: 50
+            },
+            style: {
+                fill: 'red',
+                stroke: 'green',
+                lineWidth: 2
+            }
+        })
+
+        /* 折现对象，一个点 */
+        const point = new zrender.Polyline({
+            shape: {
+                points: [
+                    [300, 300],
+                    [301, 301]
+                ]
+            },
+            style: {
+                stroke: 'blue',
+                lineWidth: 1
+            }
+        })
+
+        /* 添加到容器中 */
+        zr.add(rect);
+        zr.add(line);
+        zr.add(circle);
+        zr.add(point);
+
+    </script>
+</body>
+
+</html>

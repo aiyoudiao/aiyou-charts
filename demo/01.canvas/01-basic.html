@@ -1,0 +1,51 @@
+<!--
+ * @Descripttion: canvas basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-16 10:13:32
+ * @LastEditTime: 2020-08-16 10:48:31
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\01.canvas\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas - basic</title>
+</head>
+
+<body>
+    <canvas width="800" height="800" id="canvas"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas')
+        const context = canvas.getContext('2d') /* 获取画布上下文 */
+        context.fillStyle = 'red' /* 填充颜色为红色 */
+        context.fillRect(0, 0, 50, 50) /* 坐标零零店，宽高50的矩形 */
+
+        context.beginPath()
+        context.lineWidth = 1
+        context.strokeStyle = 'blue'
+        context.moveTo(100, 100) /* 起点坐标 */
+        context.lineTo(250, 75) /* 中间点坐标 */
+        context.lineTo(300, 100) /* 终点坐标 */
+        context.stroke() /* 绘制线段 */
+
+        context.beginPath()
+        context.lineWidth = 2
+        context.strokeStyle = 'green'
+        context.fillStyle = 'red'
+        context.arc(200, 200, 50, 0, 2 * Math.PI) /* 绘制圆形：圆心的x和y的坐标，圆半径，圆的起始角度和结束角度 */
+        context.stroke() /* 画线 */
+        context.fill() /* 填充 */
+
+        context.beginPath()
+        context.strokeStyle = 'blue'
+        context.moveTo(300, 300)
+        context.lineTo(301, 301)
+        context.stroke()
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!--
+ * @Descripttion: canvas-compress
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-16 12:21:49
+ * @LastEditTime: 2020-08-16 12:58:05
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\01.canvas\02-canvas-compress.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>canvas-compress</title>
+</head>
+
+<body>
+    <input type="file" id="upload" />
+    <script>
+        const ACCEPT = ['image/jpg', 'image/jpeg', 'image/png']
+        const MAXSIZE = 3 * 1024 * 1024
+        const MAXSIZE_STR = '3MB'
+        const convertImageToBase64 = (file, callback) => {
+            let reader = new FileReader()
+            reader.addEventListener('load', function (e) {
+                // console.log(e.target.result);
+                // console.log(reader.result);
+                const base64Image = e.target.result;
+                callback && callback(base64Image)
+                reader = null;
+            })
+            reader.readAsDataURL(file)
+        }
+
+        const upload = document.getElementById('upload')
+        const uploadReset = () => { upload.value = "" }
+        upload.addEventListener('change', function (e) {
+            console.log(e.target.files)
+
+            const [file] = e.target.files
+            if (!file) {
+                uploadReset()
+                return
+            }
+
+            const { type: fileType, size: fileSize } = file
+            /* 图片类型检查 */
+            if (!ACCEPT.includes(fileType)) {
+                alert(`不支持[${fileType}]文件类型！`)
+                uploadReset()
+                return;
+            }
+            /* 图片大小检查 */
+            if (fileSize > MAXSIZE) {
+                alert(`文件超出${MAXSIZE_STR}！`)
+                uploadReset()
+                return
+            }
+
+            convertImageToBase64(file, compress)
+
+        })
+
+        function compress(base64Image) {
+            let maxW = 1024, maxH = 1024
+
+            const image = new Image()
+            image.addEventListener('load', function (e) {
+                let ratio; /* 压缩比率 */
+                let needCompress = false; /* 是否需要压缩 */
+
+                console.log(image.naturalWidth + 'x' + image.naturalHeight)
+                if (maxW < image.naturalWidth) {
+                    needCompress = true;
+                    ratio = image.naturalWidth / maxW
+                    console.log(ratio)
+                    /* 图片的高度也需要进行同比压缩 */
+                    maxH = image.naturalHeight / ratio
+                    console.log(maxH)
+                }
+            })
+            image.src = base64Image
+            document.body.appendChild(image)
+
+
+        }
+
+    </script>
+</body>
+
+</html>

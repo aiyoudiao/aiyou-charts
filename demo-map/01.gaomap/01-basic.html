@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>高德地图基础</title>
+    <!-- https://lbs.amap.com/api/javascript-api/guide/abc/prepare -->
+    <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=e8653883477c1e38d190463340771816&plugin=AMap.PolyEditor"></script>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #container {
+            position: relative;
+        }
+
+        #tools {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+
+        
+		.marker-text {
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			color: #fff;
+			padding: 4px 10px;
+			box-shadow: 1px 1px 1px rgba(10, 10, 10, .2);
+			white-space: nowrap;
+			font-size: 12px;
+			font-family: "";
+			background-color: #25A5F7;
+			border-radius: 3px;
+		}
+    </style>
+    <link rel="stylesheet" href="./link-marker.css">
+</head>
+
+<body>
+
+    <div id="container"></div>
+    <div id="tools">
+        <div>
+            <button id="show-point">绘制点</button>
+            <button id="hide-point">隐藏点</button>
+        </div>
+        <div>
+            <button id="show-text">绘制文本</button>
+            <button id="hide-text">隐藏文本</button>
+        </div>
+        <div>
+            <button id="show-line">绘制线条</button>
+            <button id="hide-line">隐藏线条</button>
+        </div>
+        <div>
+            <button id="start-edit-line">编辑线条</button>
+            <button id="close-edit-line">停止编辑</button>
+        </div>
+        <div>
+            <button id="show-circle">绘制圆圈</button>
+            <button id="hide-circle">隐藏圆圈</button>
+        </div>
+    </div>
+
+    <script>
+        /* 初始化一个地图容器，注意这个container 与上面的 id为container的div对应，同时要给这个id为container的div设置宽高 */
+        /* https://lbs.amap.com/api/javascript-api/guide/abc/prepare */
+        var map = new AMap.Map('container', {
+            zoom: 11, //级别
+            zooms: [8, 15],
+            center: [116.397428, 39.90923], //中心点坐标
+            viewMode: '3D' //使用3D视图
+        });
+
+        //==================================================分割线====================================================
+
+        /* 给地图添加一个控制器  左上角的控制面板 加一个比例尺插件、工具条插件即可*/
+        /* https://lbs.amap.com/api/javascript-api/reference/map-control */
+        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {//异步加载插件
+            var toolbar = new AMap.ToolBar();
+            map.addControl(toolbar);
+            var scale = new AMap.Scale({
+                offset: new AMap.Pixel(10, 10)
+            });
+            map.addControl(scale);
+        });
+
+        //==================================================分割线====================================================
+
+        /* 定义一个能够跳转的超链接标记点 */
+        /* https://lbs.amap.com/api/javascript-api/reference/overlay/#marker */
+        var marker = new AMap.Marker({
+            // 这里的经纬度，可以设置动态生成
+            position: [116.406315, 39.908775],
+            // offset: new AMap.Pixel(-13, -30),
+            /* 这里使用了自定义地图标记点样式，记住添加相应的样式 */
+            content: `<a class="link-marker" href="https://lbs.amap.com/api/javascript-api/reference/overlay#marker" tool="跳转页面"  alt="一个链接">
+			            <div class="pin"></div><div class="pulse"></div>
+			        </a>`
+        });
+
+        /* 给绘制点以及移除点添加相应的单击事件 */
+        document.getElementById('show-point').addEventListener('click', function (e) {
+            map.add(marker);
+        });
+        document.getElementById('hide-point').addEventListener('click', function (e) {
+            map.remove(marker);
+        });
+
+        //==================================================分割线====================================================
+
+        /* 绘制一个文本，其实是一个点，向上面一样，也是在marker的content属性上做了处理 */
+        var contentMarker = new AMap.Marker({
+            position: [116.406315, 39.908775],
+            offset: new AMap.Pixel(130, 0)
+        });
+        var markerContent = document.createElement("div");
+        var markerSpan = document.createElement("span");
+        markerSpan.className = 'marker-text';
+        markerSpan.innerHTML = "我是一个文本哟";
+        markerContent.appendChild(markerSpan);
+
+
+        document.getElementById('show-text').addEventListener('click', function (e) {
+            contentMarker.setMap(map);
+            contentMarker.setContent(markerContent); //更新点标记内容
+            contentMarker.setPosition([116.391467, 39.927761]); //更新点标记位置
+        });
+        document.getElementById('hide-text').addEventListener('click', function (e) {
+            map.remove(contentMarker);
+        });
+
+        //==================================================分割线====================================================
+
+        /* 绘制一条线 */
+        var lineArr = [
+            [116.368904, 39.913423],
+            [116.382122, 39.901176],
+            [116.387271, 39.912501],
+            [116.398258, 39.904600]
+        ];
+        /* https://lbs.amap.com/api/javascript-api/reference/overlay#polyline */
+        var polyline = new AMap.Polyline({
+            path: lineArr,          //设置线覆盖物路径
+            strokeColor: "#3366FF", //线颜色
+            strokeWeight: 5,        //线宽
+            strokeStyle: "solid",   //线样式
+        });
+
+        document.getElementById('show-line').addEventListener('click', function (e) {
+            map.add(polyline);
+        });
+        document.getElementById('hide-line').addEventListener('click', function (e) {
+            map.remove(polyline);
+        });
+
+        //==================================================分割线====================================================
+
+        /* 添加线条编辑器的支持 */
+        var polyEditor = new AMap.PolyEditor(map, polyline)
+        document.getElementById('start-edit-line').addEventListener('click', function (e) {
+            map.remove(polyline);
+            polyEditor.open();
+        });
+        document.getElementById('close-edit-line').addEventListener('click', function (e) {
+            polyEditor.close();
+            map.add(polyline);
+        });
+
+        //==================================================分割线====================================================
+
+        /* 绘制一个普通的圆圈 */
+        /* https://lbs.amap.com/api/javascript-api/reference/overlay#circle */
+        var circle = new AMap.Circle({
+            center: new AMap.LngLat(116.39, 39.9),  // 圆心位置
+            radius: 1000, // 圆半径
+            fillColor: '#3366FF',   // 圆形填充颜色
+            fillOpacity: 0.3, /* 填充的颜色透明度 */
+            strokeColor: '#3366FF', // 描边颜色
+            strokeWeight: 2, // 描边宽度
+            strokeStyle: "solid", // 轮廓线样式，实线:solid，虚线:dashed
+        });
+
+        document.getElementById('show-circle').addEventListener('click', function (e) {
+            map.add(circle);
+        });
+        document.getElementById('hide-circle').addEventListener('click', function (e) {
+            map.remove(circle);
+        });
+
+    </script>
+
+</body>
+
+</html>

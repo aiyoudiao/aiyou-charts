@@ -1,0 +1,62 @@
+<!--
+ * @Descripttion: d3 basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-16 11:38:14
+ * @LastEditTime: 2020-08-16 11:55:58
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\05.d3\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>d3 basic</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/d3/5.16.0/d3.js"></script>
+</head>
+
+<body>
+    <p>Vue</p>
+    <p>React</p>
+    <p>Angular</p>
+
+    <button id="datum">datum</button>
+    <button id="data">data</button>
+
+    <script>
+
+        /* 获取d3中的dom对象 */
+        const body = d3.select('body');
+        const p = body.selectAll('p');
+
+        function doDatum() {
+            const str = 'framework 777'
+            p.datum(str)
+            p.text(function (d, i) {
+                return `${d} ==> ${i}`
+            })
+        }
+        function doData() {
+            const dataSet = ['Vue', 'React', 'Angular']
+            p.data(dataSet).text(function (d, i) {
+                return `${d} ==> ${i}`;
+            })
+        }
+
+        $$$('#datum', function () {
+            doDatum();
+        })
+
+        $$$('#data', function () {
+            doData();
+        })
+
+        function $$$(id, fn) {
+            document.getElementById(id.slice(1)).addEventListener('click', fn);
+        }
+    </script>
+</body>
+
+</html>
