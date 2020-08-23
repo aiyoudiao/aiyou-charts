@@ -3,7 +3,7 @@
  * @version: 1.0.0
  * @Author: aiyoudiao
  * @Date: 2020-08-16 12:21:49
- * @LastEditTime: 2020-08-24 00:51:38
+ * @LastEditTime: 2020-08-24 01:05:16
  * @LastEditors: aiyoudiao
  * @FilePath: \aiyou-charts\demo\01.canvas\02-canvas-compress.html
 -->
@@ -75,10 +75,10 @@
                 if (maxW < image.naturalWidth) {
                     needCompress = true;
                     ratio = image.naturalWidth / maxW
-                    console.log(ratio)
+                    // console.log(ratio)
                     /* 图片的高度也需要进行同比压缩 */
                     maxH = image.naturalHeight / ratio
-                    console.log(maxH)
+                    // console.log(maxH)
                 }// 经过处理后的实际图片尺寸为 1024 * 640
 
                 if (maxH < image.naturalHeight) {
@@ -100,7 +100,7 @@
                 canvas.width = maxW
                 canvas.height = maxH
                 canvas.style.visibility = 'hidden'
-                document.body.appendChild(canvas)
+                // document.body.appendChild(canvas)
 
                 /* 绘制压缩后的图片 */
                 const context = canvas.getContext('2d')
@@ -112,7 +112,7 @@
                 callback && callback(compressImage)
                 const __image = new Image()
                 __image.src = compressImage
-                document.body.appendChild(__image)
+                // document.body.appendChild(__image)
                 canvas.remove()
 
                 /* 输出压缩比例 */
@@ -120,7 +120,7 @@
             })
 
             image.src = base64Image
-            document.body.appendChild(image)
+            // document.body.appendChild(image)
         }
 
         /* 上传到服务器 */
