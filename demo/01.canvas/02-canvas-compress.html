@@ -3,7 +3,7 @@
  * @version: 1.0.0
  * @Author: aiyoudiao
  * @Date: 2020-08-16 12:21:49
- * @LastEditTime: 2020-08-16 12:58:05
+ * @LastEditTime: 2020-08-24 00:51:38
  * @LastEditors: aiyoudiao
  * @FilePath: \aiyou-charts\demo\01.canvas\02-canvas-compress.html
 -->
@@ -59,11 +59,11 @@
                 return
             }
 
-            convertImageToBase64(file, compress)
+            convertImageToBase64(file, (base64Image) => compress(base64Image, uploadToServer))
 
         })
 
-        function compress(base64Image) {
+        function compress(base64Image, callback) {
             let maxW = 1024, maxH = 1024
 
             const image = new Image()
@@ -79,14 +79,54 @@
                     /* 图片的高度也需要进行同比压缩 */
                     maxH = image.naturalHeight / ratio
                     console.log(maxH)
+                }// 经过处理后的实际图片尺寸为 1024 * 640
+
+                if (maxH < image.naturalHeight) {
+                    needCompress = true
+                    ratio = image.naturalHeight / maxH
+                    /* 图片的宽度进行同比例压缩 */
+                    maxW = image.naturalWidth / ratio
                 }
+
+                /* 当图片的大小小于限定的最大宽高时，直接使用图片的默认宽高 */
+                if (!needCompress) {
+                    maxW = image.naturalWidth
+                    maxH = image.naturalHeight
+                }
+
+                /* 创建一个画布 */
+                const canvas = document.createElement('canvas')
+                canvas.setAttribute('id', '__compress__')
+                canvas.width = maxW
+                canvas.height = maxH
+                canvas.style.visibility = 'hidden'
+                document.body.appendChild(canvas)
+
+                /* 绘制压缩后的图片 */
+                const context = canvas.getContext('2d')
+                context.clearRect(0, 0, maxW, maxH)
+                context.drawImage(image, 0, 0, maxW, maxH)
+
+                /* 获取base64 */
+                const compressImage = canvas.toDataURL('image/jpeg', 0.9)
+                callback && callback(compressImage)
+                const __image = new Image()
+                __image.src = compressImage
+                document.body.appendChild(__image)
+                canvas.remove()
+
+                /* 输出压缩比例 */
+                console.log(`压缩比：${image.src.length / __image.src.length} 比 1`)
             })
+
             image.src = base64Image
             document.body.appendChild(image)
-
-
         }
 
+        /* 上传到服务器 */
+        function uploadToServer(compressImage) {
+            console.log('upload to server ...', compressImage)
+        }
     </script>
 </body>
 

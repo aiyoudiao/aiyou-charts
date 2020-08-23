@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>高德地图基础</title>
     <!-- https://lbs.amap.com/api/javascript-api/guide/abc/prepare -->
-    <script type="text/javascript"
-        src="https://webapi.amap.com/maps?v=1.4.15&key=e8653883477c1e38d190463340771816&plugin=AMap.PolyEditor"></script>
+    <!-- <script type="text/javascript"
+        src="https://webapi.amap.com/maps?v=1.4.15&key=e8653883477c1e38d190463340771816&plugin=AMap.PolyEditor"></script> -->
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=a9f72945341e7755695f562a115bb854">
+        </script>
     <style>
         html,
         body {
@@ -16,17 +18,12 @@
             height: 100%;
         }
 
-        #container {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            margin: 0;
-            font-family: "微软雅黑";
+        .map-box {
+            width: 400px;
+            height: 400px;
+            background-color: pink;
         }
 
-        #container {
-            position: relative;
-        }
 
         #tools {
             position: absolute;
@@ -54,7 +51,7 @@
 
 <body>
 
-    <div id="container"></div>
+    <div class="map-box" id="map01"></div>
     <div id="tools">
         <div>
             <button id="show-point">绘制点</button>
@@ -81,12 +78,14 @@
     <script>
         /* 初始化一个地图容器，注意这个container 与上面的 id为container的div对应，同时要给这个id为container的div设置宽高 */
         /* https://lbs.amap.com/api/javascript-api/guide/abc/prepare */
-        var map = new AMap.Map('container', {
+        new AMap.Map('map01', {
             zoom: 11, //级别
-            zooms: [8, 15],
-            center: [116.397428, 39.90923], //中心点坐标
-            viewMode: '3D' //使用3D视图
+            // zooms: [8, 15],
+            // center: [116.397428, 39.90923], //中心点坐标
+            // viewMode: '3D' //使用3D视图
         });
+
+
 
         //==================================================分割线====================================================
 
