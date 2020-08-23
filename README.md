@@ -30,7 +30,12 @@
 <details>
 <summary>02-canvas-compress</summary>
 
-1. 
+1. html中添加一个type为file的input
+2. 在script中定义上传类型以及上传容器限制的常量
+3. 监听文件域的change事件，对文件的类型以及大小进行判断，最后调用`convertImageToBase64`方法
+4. 在`convertImageToBase64`将图片转换成base64，并将base64码传到回调函数中，回调函数中会调用`compress`方法来进行base64后的图片的压缩
+5. 在`compress`方法中定义压缩后的图片的最大宽高，将base64码赋值给Image对象的src，同时监听Image对象的load方法。
+6. 根据图片的原始宽高除以最大宽高来计算图片的压缩比率，通过压缩比率来重置压缩后的图片宽高。当图片原始宽高小于最大宽高时可以不进行压缩，也可以将图片新的宽高设置为原始宽高。创建画布对象，设置它的宽高，创建画布上下文，将图片绘制到画布上去，调用canvas的toBase64URL方法，同时设置压缩比率和图片类型。最终调用回调函数，将压缩后的图片的base64码传到回调函数中去。最后会调用`uploadToServer`方法，将base64码传递到服务上。
 
 </details>
 

@@ -3,7 +3,7 @@
  * @version: 1.0.0
  * @Author: aiyoudiao
  * @Date: 2020-08-16 12:21:49
- * @LastEditTime: 2020-08-24 01:05:16
+ * @LastEditTime: 2020-08-24 01:16:23
  * @LastEditors: aiyoudiao
  * @FilePath: \aiyou-charts\demo\01.canvas\02-canvas-compress.html
 -->
@@ -92,6 +92,10 @@
                 if (!needCompress) {
                     maxW = image.naturalWidth
                     maxH = image.naturalHeight
+
+                    /* 图片不大，就不进行压缩 */
+                    // callback && callback(compressImage)
+                    // return;
                 }
 
                 /* 创建一个画布 */
