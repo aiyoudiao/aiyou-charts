@@ -1,0 +1,98 @@
+<!--
+ * @Descripttion: antv g6 basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-24 02:15:27
+ * @LastEditTime: 2020-08-24 02:43:37
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\08.AntV-G6\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>antv g6 basic</title>
+    <!-- 引入在线资源 -->
+    <script src="https://gw.alipayobjects.com/os/antv/pkg/_antv.g6-3.5.10/dist/g6.min.js"></script>
+</head>
+
+<body>
+    <div id="g6-chart"></div>
+
+    <script>
+        const data = {
+            /* 点集合 */
+            nodes: [{
+                id: 'node1',
+                x: 100,
+                y: 200,
+                label: '起始点',
+                size: 60,
+                labelCfg: {
+                    position: 'center' /* 默认是居中显示 */,
+                    style: {
+                        fontSize: 14,
+                        fill: '#f2740c'
+                    }
+                },
+                /* 圆形的样式 */
+                style: {
+                    fill: '#74f20c',
+                    stroke: '#0c74f2',
+                    lineWidth: 4
+                }
+            }, {
+                id: 'node4',
+                x: 300,
+                y: 400,
+                label: '目标点3',
+                size: 70
+            }, {
+                id: 'node2',
+                x: 300,
+                y: 200,
+                label: '目标点1',
+                size: 80
+            },
+            {
+                id: 'node3',
+                x: 500,
+                y: 200,
+                label: '目标点2',
+                size: 100
+            }
+            ],
+            /* 边(线)集合 */
+            edges: [
+                {
+                    source: 'node1', /* 出发点 */
+                    target: 'node2', /* 目标点 */
+                    label: '连接线1' /* 连接线上的文字 */
+                },
+                {
+                    source: 'node1', /* 出发点 */
+                    target: 'node4', /* 目标点 */
+                    label: '连接线3' /* 连接线上的文字 */
+                },
+                {
+                    source: 'node2',
+                    target: 'node3',
+                    label: '连接线2'
+                }
+            ],
+        };
+        /* 完成G6的初始化 */
+        const graph = new G6.Graph({
+            container: 'g6-chart',
+            width: 800,
+            height: 500
+        });
+
+        graph.data(data);
+        graph.render();
+    </script>
+</body>
+
+</html>

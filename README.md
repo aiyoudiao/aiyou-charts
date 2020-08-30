@@ -118,3 +118,72 @@ webgl 是一个3d绘图协议，可以借助硬件显卡让动画更加流程，
 > [官方文档](https://threejs.org/docs/)
 
 </details>
+
+### heightcharts 纯JavaScript编写图表库
+
+[官网](https://www.highcharts.com.cn/)  文档非常的细致。
+
+分`Heightcharts JS`、`Hightstock JS`、`Highmaps JS`三个库  
+免费提供给 个人学习、个人网站、非商业用途使用，商业用途需要付费。  
+
+1. Heightcharts JS，一个优秀的图表库，如折线图、柱图、饼图、气泡图等等
+2. Hightstock JS，一个优秀的股票图，适合金融领域的趋势图表展示。
+3. Highmaps JS，一个优秀的地图，基于HTML5实现的一个地图库。
+
+### antv 一套数据可视化的解决方案
+
+[官网](https://antv.vision/zh)  文档非常的细致
+AntV是蚂蚁金服全新一代的数据可视化方案，不是一个方案，而是一套方案：
+
+1. G2: 可视化引擎（柱状图、折线图等等）
+2. G2Plot: 图表库 （G2的扩展产品，用它来完成图表的绘制）
+3. G6: 图可视化引擎（思维导图、流程图等等）
+4. Graphin：基于G6的图分析组件
+5. F2：移动可视化方案（移动端可视化）
+6. ChartCube: AntV 图表在线制作平台
+7. L7：地理控件数据可视化（地图可视化）
+
+#### 实例流程
+
+1. antv-g2/01-basic
+2. antv-g6/01-basic
+
+<details>
+
+<summary>antv-g2/01-basic</summary>
+
+1. 引入js库
+2. 编写渲染容器的DOM
+3. 获取渲染的DOM对象
+4. 获取渲染的数据，准备数据源，G6和D3一样也是用数据驱动，G6使用canvas，D3使用svg。
+5. 初始化G2绘图对象，如G2Plot.Line，配置绘图参数
+6. 调用data方法填充数据，调用render完成渲染。
+
+</details>
+
+<details>
+
+<summary>antv-g6/01-basic</summary>
+
+1. 引入js库
+2. 编写渲染容器的DOM
+3. 获取渲染的数据，准备数据源，点集合、边集合
+4. 获取渲染DOM对象
+5. 初始化G6绘图对象，如G6.Graph，配置绘图参数
+6. 调用render完成渲染
+
+</details>
+
+<details>
+
+<summary>antv-l7</summary>
+
+1. 引入js脚本
+2. 编写渲染容器的DOM
+3. 初始化地图对象 L7.Scene
+4. 获取数据
+5. 数据清洗（数据过滤）
+6. 初始化绘图对象，如L7.PonintLayer，对绘图对象进行一系列的属性部署
+7. 调用 L7.Scene.addLayer 来添加绘制的图层
+
+</details>

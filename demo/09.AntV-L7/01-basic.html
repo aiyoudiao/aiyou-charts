@@ -1,0 +1,38 @@
+<!--
+ * @Descripttion: antv l7 basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-24 02:45:27
+ * @LastEditTime: 2020-08-31 05:06:20
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\09.AntV-L7\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>antv l7 basic</title>
+    <!--引入最新版的L7-->
+    <script src='https://unpkg.com/@antv/l7'></script>
+</head>
+
+<body>
+    <div id="l7-map"></div>
+    <script>
+        const scene = new L7.Scene({
+            id: 'l7-map',
+            map: new L7.GaodeMap({
+                style: 'dark',
+                center: ['121.506377', '31.245105'],
+                pitch: 0, /* 看地图时的仰角 0为绝对的俯视*/
+                zoom: 20, /* 放大倍数，越大越详细 */
+                token: 'e8653883477c1e38d190463340771816'
+            })
+        })
+    </script>
+
+</body>
+
+</html>

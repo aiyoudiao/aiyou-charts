@@ -1,0 +1,77 @@
+<!--
+ * @Descripttion: antv g2 basic
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-24 01:40:53
+ * @LastEditTime: 2020-08-24 02:09:40
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo\07.AntV-G2\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>antv g2 basic</title>
+    <!-- 引入在线资源 -->
+    <script src="https://unpkg.com/@antv/g2plot@latest/dist/g2plot.js"></script>
+</head>
+
+<body>
+    <div id="g2-chart"></div>
+    <script>
+        const chartDom = document.getElementById('g2-chart')
+        const line = new G2Plot.Line(chartDom, {
+            title: {
+                visible: true,
+                text: '折线图',
+            },
+            data: [].concat(Array(12).fill(1).map((item, index) => ({
+                year: 1900 + index + '',
+                value: parseInt(Math.random() * 1000 + index),
+            }))),
+            xField: 'year',
+            yField: 'value',
+
+            /* 添加副标题 */
+            description: {
+                visible: true,
+                text: '折线图示例，这是一个副标题',
+            },
+
+            /* 折线图上添加额外的点 */
+            point: {
+                visible: true,
+                size: 5,
+                color: '#fff',
+                /* 添加额外的样式 */
+                style: {
+                    stroke: '#f2740c',
+                    lineWidth: 2,
+                    fillOpacity: 0.6
+                }
+            },
+
+            /* 折现图上方添加附加说明 */
+            label: {
+                visible: true,
+            },
+
+            /* 修改线条的颜色 */
+            color: '#f2740c',
+
+            /* 在y轴在做额外处理 */
+            yAxis: {
+                /* 给y轴的显示文本添加一个K */
+                formatter: (v) => {
+                    return `${v}K`
+                }
+            }
+
+        })
+        line.render()
+    </script>
+</body>
+
+</html>
