@@ -1,0 +1,62 @@
+<!--
+ * @Descripttion: echarts 08.axis
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-31 06:06:17
+ * @LastEditTime: 2020-08-31 06:17:27
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo-echarts\08.axis\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echarts/08.axis</title>
+    <!--     <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"
+        integrity="sha256-ferwUEq7cQcMM2B18rhipCnqqLRq2xOEVco+9n40m3U=" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"
+        integrity="sha256-f5z64AYdyFIHFYOrxaXlYLruuvEbJaGqBg8MxtgYjII=" crossorigin="anonymous"></script>
+    <style>
+        #container {
+            height: 400px;
+            width: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+    <script src="./walden.js"></script>
+    <script>
+        window.onload = () => {
+            const chartDom = document.getElementById('container');
+            const chart = echarts.init(chartDom, 'walden', {
+                renderer: 'svg'
+            });
+            chart.setOption({
+                xAxis: {},
+                yAxis: {},
+                dataset: {
+                    source: [
+                        [13, 44],
+                        [51, 51],
+                        [51, 32],
+                        [67, 19],
+                        [19, 33]
+                    ]
+                },
+                series: [
+                    {
+                        type: 'scatter',
+                        encode: { x: 0, y: 1 }
+                    }
+                ]
+            })
+
+        }
+    </script>
+</body>
+
+</html>

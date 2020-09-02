@@ -1,0 +1,124 @@
+<!--
+ * @Descripttion: echarts 07.position
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-31 06:06:17
+ * @LastEditTime: 2020-08-31 06:17:27
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo-echarts\07.position\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echarts/07.position</title>
+    <!--     <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"
+        integrity="sha256-ferwUEq7cQcMM2B18rhipCnqqLRq2xOEVco+9n40m3U=" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"
+        integrity="sha256-f5z64AYdyFIHFYOrxaXlYLruuvEbJaGqBg8MxtgYjII=" crossorigin="anonymous"></script>
+    <style>
+        #container {
+            height: 400px;
+            width: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+    <script src="./purple-passion.js"></script>
+    <script>
+        window.onload = () => {
+            const chartDom = document.getElementById('container');
+            const chart = echarts.init(chartDom, 'purple-passion', {
+                renderer: 'svg'
+            });
+            chart.setOption({
+                title: {
+                    text: '多系列（多图例）',
+                    subtext: '这是一个图表组件demo'
+                },
+                legend: {
+                    show: true,
+                    // data: ['饼图', '折线图', '柱状图']
+                    data: [
+                        {
+                            name: '饼图',
+                            icon: 'circle',
+                            textStyle: {
+                                color: 'red'
+                            }
+                        },
+                        '折线图', '柱状图'
+                    ],
+                    left: 'center',
+                    itemGap: 150,
+                    // top: 'center'
+                },
+                grid: {
+                    top: 100,
+                    left: '10%',
+                    right: '10%',
+                    bottom: 100
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            // 不选取任何坐标轴
+                            yAxisIndex: false
+                        },
+                        restore: {},
+                        saveAsImage: {}
+                    }
+                },
+                dataZoom: [
+                    {
+                        show: true,
+                        start: 0,
+                        end: 100
+                    }
+                ],
+                xAxis: {
+                    data: ['产品A', '产品B', '产品C', '产品D']
+                },
+                yAxis: {},
+                /* 数据源集中管理 */
+                dataset: {
+                    source: [
+                        ['产品A', 100, 120, '季度一销量', 200],
+                        ['产品B', 200, 320, '季度二销量', 100],
+                        ['产品C', 500, 400, '季度三销量', 150],
+                        ['产品D', 80, 90],
+
+                    ]
+                },
+                series: [{
+                        name: '饼图',
+                        type: 'pie',
+                        /* 左侧，上面 */
+                        center: ['45%', 60],
+                        radius: 35,
+                        encode: {
+                            itemName: 3,
+                            value: 4
+                        }
+                    },
+                    {
+                        name: '折线图',
+                        type: 'line',
+                        encode: {x: 0, y: 2}
+                    },
+                    {
+                        name: '柱状图',
+                        type: 'bar',
+                        encode: {x: 0, y: 1}
+                    }
+                ]
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!--
+ * @Descripttion: echarts 04.series
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-31 06:06:17
+ * @LastEditTime: 2020-08-31 06:17:27
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo-echarts\04.series\01-basic.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echarts/04.series</title>
+    <!--     <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"
+        integrity="sha256-ferwUEq7cQcMM2B18rhipCnqqLRq2xOEVco+9n40m3U=" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"
+        integrity="sha256-f5z64AYdyFIHFYOrxaXlYLruuvEbJaGqBg8MxtgYjII=" crossorigin="anonymous"></script>
+    <style>
+        #container {
+            height: 400px;
+            width: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+    <script src="./purple-passion.js"></script>
+    <script>
+        window.onload = () => {
+            const chartDom = document.getElementById('container');
+            const chart = echarts.init(chartDom, 'purple-passion', {
+                renderer: 'svg'
+            });
+            chart.setOption({
+                title: {
+                    text: '多系列（多图例）',
+                },
+                xAxis: {
+                    data: ['产品A', '产品B', '产品C', '产品D']
+                },
+                yAxis: {},
+                series: [{
+                        type: 'pie',
+                        /* 左侧，上面 */
+                        center: ['45%', 60],
+                        radius: 35,
+                        data: [{
+                                name: '季度一销量',
+                                value: 200
+                            },
+                            {
+                                name: '季度二销量',
+                                value: 100
+                            },
+                            {
+                                name: '季度三销量',
+                                value: 150
+                            }
+                        ]
+                    },
+                    {
+                        type: 'line',
+                        data: [120, 320, 400, 90]
+                    },
+                    {
+                        type: 'bar',
+                        data: [100, 200, 500, 80]
+                    }
+                ]
+            });
+        }
+    </script>
+</body>
+
+</html>

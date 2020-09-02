@@ -1,0 +1,78 @@
+<!--
+ * @Descripttion: echarts 08.axis
+ * @version: 1.0.0
+ * @Author: aiyoudiao
+ * @Date: 2020-08-31 06:06:17
+ * @LastEditTime: 2020-08-31 06:17:27
+ * @LastEditors: aiyoudiao
+ * @FilePath: \aiyou-charts\demo-echarts\08.axis\02-two-axis.html
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>echarts/08.axis 双坐标系</title>
+    <!--     <script src="https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.js"
+        integrity="sha256-ferwUEq7cQcMM2B18rhipCnqqLRq2xOEVco+9n40m3U=" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.js"
+        integrity="sha256-f5z64AYdyFIHFYOrxaXlYLruuvEbJaGqBg8MxtgYjII=" crossorigin="anonymous"></script>
+    <style>
+        #container {
+            height: 400px;
+            width: 1200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container" class="container"></div>
+    <script src="./walden.js"></script>
+    <script>
+        window.onload = () => {
+            const chartDom = document.getElementById('container');
+            const chart = echarts.init(chartDom, 'walden', {
+                renderer: 'svg'
+            });
+            chart.setOption({
+                xAxis: {
+                    type: 'category'
+                },
+                /* 设置两个坐标轴 */
+                yAxis: [{
+                    /* 自定义刻度的最大值和最小值 */
+                    min: 0,
+                    max: 100
+                }, {
+                    // 刻度分割线
+                    splitLine: {
+                        show: false
+                    }
+                }],
+                dataset: {
+                    source: [
+                        ['product', '2012', '2013', '2014', '2015'],
+                        ['Matcha Latte', 41.1, 30.4, 65.1, 53.3],
+                        ['Milk Tea', 86.5, 92.1, 85.7, 83.1]
+                    ]
+                },
+                series: [{
+                    type: 'bar',
+                    seriesLayoutBy: 'row',
+                    /* 对应yAxis中第一个坐标轴 */
+                    yAxisIndex: 0
+
+                }, {
+                    type: 'line',
+                    seriesLayoutBy: 'row',
+                    /* 对应yAxis中第二个坐标轴 */
+                    yAxisIndex: 1
+                }]
+            })
+
+        }
+    </script>
+</body>
+
+</html>
