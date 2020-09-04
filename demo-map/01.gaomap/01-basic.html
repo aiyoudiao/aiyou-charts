@@ -8,7 +8,8 @@
     <title>高德地图基础</title>
     <!-- https://lbs.amap.com/api/javascript-api/guide/abc/prepare -->
     <script type="text/javascript"
-        src="https://webapi.amap.com/maps?v=1.4.15&key=e8653883477c1e38d190463340771816&plugin=AMap.PolyEditor"></script>
+        src="https://webapi.amap.com/maps?v=1.4.15&key=e8653883477c1e38d190463340771816&plugin=AMap.PolyEditor">
+    </script>
     <style>
         html,
         body {
@@ -48,7 +49,6 @@
 </head>
 
 <body>
-
     <div class="map-box" id="container"></div>
     <div id="tools">
         <div>
@@ -89,7 +89,7 @@
 
         /* 给地图添加一个控制器  左上角的控制面板 加一个比例尺插件、工具条插件即可*/
         /* https://lbs.amap.com/api/javascript-api/reference/map-control */
-        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () {//异步加载插件
+        AMap.plugin(['AMap.ToolBar', 'AMap.Scale'], function () { //异步加载插件
             var toolbar = new AMap.ToolBar();
             map.addControl(toolbar);
             var scale = new AMap.Scale({
@@ -154,10 +154,10 @@
         ];
         /* https://lbs.amap.com/api/javascript-api/reference/overlay#polyline */
         var polyline = new AMap.Polyline({
-            path: lineArr,          //设置线覆盖物路径
+            path: lineArr, //设置线覆盖物路径
             strokeColor: "#3366FF", //线颜色
-            strokeWeight: 5,        //线宽
-            strokeStyle: "solid",   //线样式
+            strokeWeight: 5, //线宽
+            strokeStyle: "solid", //线样式
         });
 
         document.getElementById('show-line').addEventListener('click', function (e) {
@@ -185,10 +185,11 @@
         /* 绘制一个普通的圆圈 */
         /* https://lbs.amap.com/api/javascript-api/reference/overlay#circle */
         var circle = new AMap.Circle({
-            center: new AMap.LngLat(116.39, 39.9),  // 圆心位置
+            center: new AMap.LngLat(116.39, 39.9), // 圆心位置
             radius: 1000, // 圆半径
-            fillColor: '#3366FF',   // 圆形填充颜色
-            fillOpacity: 0.3, /* 填充的颜色透明度 */
+            fillColor: '#3366FF', // 圆形填充颜色
+            fillOpacity: 0.3,
+            /* 填充的颜色透明度 */
             strokeColor: '#3366FF', // 描边颜色
             strokeWeight: 2, // 描边宽度
             strokeStyle: "solid", // 轮廓线样式，实线:solid，虚线:dashed
@@ -200,7 +201,6 @@
         document.getElementById('hide-circle').addEventListener('click', function (e) {
             map.remove(circle);
         });
-
     </script>
 
 </body>
