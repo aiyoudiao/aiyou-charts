@@ -1,0 +1,5 @@
+/* vue-echarts中图表默认样式 */
+.echarts {
+    width: 100%;
+    height: 100%;
+}
