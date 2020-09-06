@@ -98,9 +98,31 @@ areaStyle、itemStyle、lineStyle 分别是 面积区域样式、数据项样式
 
 它的源码比较简单，就是你手写一个图表初始化的那些代码，同时它提供了一些更加通用的方法给你使用。
 
-
 ### v-charts
 
 v-charts 是一个图表组件库，操作更加简便了。只需要传入结构化的数据，马上就能得到想要的图表信息。
 正是如此，v-charts中定义的某些属性和echarts中的option是不兼容的，所以需要进行二次学习才能掌握。
 当你需要进行一些复杂的样式定制的时候，还是需要你使用echarts的option。
+
+## element ui
+
+### el-card
+
+Card  
+它的源码比较简单也比较清晰。向外暴露的只有三个属性，header、body-style、shadow。
+
+### el-menu和el-menu-item
+
+Menu 和 Menu-item
+
+### el-radio-group 和 el-radio-button
+
+RadioGroup 和 RadioButton
+
+### el-data-picker
+
+DatePciker
+可以通过picker-options来添加额外配置，从而可以定制化data-picker。  
+可以通过unlink-panels来消除两个时间面板的联动效果（在选择年份时的左边的面板会随着右侧的面板联动）。
+
+阅读源码可以知道更多的实现细节，这就是好处。
