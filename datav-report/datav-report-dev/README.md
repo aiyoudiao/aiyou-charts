@@ -73,6 +73,7 @@ areaStyle、itemStyle、lineStyle 分别是 面积区域样式、数据项样式
 坐标轴默认两侧会有间隙，可以通过boundaryGap来去除。
 
 有时图例会显示不完整，可以通过将grid四个方向设置为0来让图例显示完全。
+有时通过给坐标轴设置min和max的值，也能够解决图例显示不完全的问题，一般在y轴上设置。
 
 图例之间的间隙是通过itemGap来控制的。
 
@@ -126,3 +127,53 @@ DatePciker
 可以通过unlink-panels来消除两个时间面板的联动效果（在选择年份时的左边的面板会随着右侧的面板联动）。
 
 阅读源码可以知道更多的实现细节，这就是好处。
+
+### el-table 和 el-table-column
+
+Table 和 TableColumn
+
+### el-pagination
+
+Pagination
+
+**注意**：使用pagination的组件时，如果把layout属性中的值写错了，浏览器汇会报`vue.runtime.esm.js?2b0e:6243 Uncaught TypeError: Cannot read property 'key' of undefined`这样的错误，非常难排查。
+
+```html
+<!-- 错误的layout -->
+<el-pagination
+layout="perv,pager,next"
+:total="100"
+:page-size="4"
+background
+@current-change="onPageChange"
+></el-pagination>
+
+<!-- 正确的layout -->
+<el-pagination
+layout="prev,pager,next"
+:total="100"
+:page-size="4"
+background
+@current-change="onPageChange"
+></el-pagination>
+```
+
+## 图例
+
+### 饼图
+
+饼图是不需要坐标系的，直接设置series即可。
+label属性中可以通过formatter来过滤要显示的数据。  
+通过position的值，可以设置label在饼图内部显示还是外部显示。  
+label显示的位置，饼图外部或者饼图内部，默认值是outter ，在饼图内部显示label时使用inner。  
+center属性可以设置圆心的位置，比如`center: ['35%', '50%']`，圆心在画布的x轴百分之35、y轴的百分之五十。
+radius属性可以设置饼图的内半径和外半径，内半径就是圆心到内圈，外半径就是圆心到外圈，比如`radius: ['45%', '60%']`，饼图显示的区域就只是半径百分之45到半径百分之60的面积（默认值是百分之0到百分之75），其它的都是空白区域。
+radius取的是画布的高度。
+labelLine分成两段，分别可以设置线段1和线段2的长度。
+通过clockwise可以控制饼图是按照顺时针还是逆时针排列。
+legend可以指定容器高度同时设置为可滚动的类型，也可以设置它的排列方式。
+
+### tooltip 提示框
+
+trigger属性表示触发类型，默认值是item。  
+通过formatter属性可以对提示框展示的内容进行定制化。
