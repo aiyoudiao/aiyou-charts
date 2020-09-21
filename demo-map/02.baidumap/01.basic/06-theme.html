@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06-theme 百度地图个性化</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map" class="map"></div>
+    <script src="./06-theme.js"></script>
+    <script>
+      console.log(window.BMapGL);
+      const map = new BMapGL.Map("map");
+      const point = new BMapGL.Point(116.316833, 39.998877);
+      /* 设置地图中心点以及焦距大小 */
+      map.centerAndZoom(point, 10);
+      /* 让鼠标滚轮时可以放大缩小地图焦距 */
+      map.enableScrollWheelZoom(true);
+
+      // map.setMapStyleV2({
+      //   styleId: '2211cc6209de79c12d7c57365bdedee0'
+      // })
+
+      // map.setMapStyleV2({
+      //   styleId: "a0c43e8c7279db0a4a032712d0e4c32c",
+      //   // styleId: "2211cc6209de79c12d7c57365bdedee0",
+      // });
+
+      map.setMapStyleV2({
+        styleJson: themeJson
+      })
+
+      // /* 设置地图3D旋转角度 */
+      // map.setHeading(0);
+
+      // /* 设置地图倾斜角度 */
+      // map.setTilt(70);
+
+      // /* 添加百度地图插件，只需要这个类名，然后new一下就可以了 */
+      // const zoomControl = new BMapGL.ZoomControl(
+      //   {
+      //     /* 按钮位置 */
+      //     anchor: BMAP_ANCHOR_BOTTOM_LEFT,
+      //   }
+      // )
+      // map.addControl(zoomControl)
+
+      // const scaleControl = new BMapGL.ScaleControl({
+      //   anchor: BMAP_ANCHOR_TOP_LEFT,
+      //   offset: new BMapGL.Size(10, 10)
+      // })
+      // map.addControl(scaleControl)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-animate 百度地图 动画</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+
+      .tool-bar {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        z-index: 9999999;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map" class="map"></div>
+    <div class="tool-bar">
+      <button class="start-btn">开始播放</button>
+      <button class="end-btn">结束播放</button>
+    </div>
+    <script src="./theme.js"></script>
+    <script>
+      console.log(window.BMapGL);
+      const map = new BMapGL.Map("map");
+      const point = new BMapGL.Point(116.404, 39.915);
+      /* 设置地图中心点以及焦距大小 */
+      map.centerAndZoom(point, 20);
+      /* 让鼠标滚轮时可以放大缩小地图焦距 */
+      map.enableScrollWheelZoom(true);
+      map.setTilt(20);
+      map.setHeading(0);
+      const keyFrames = [
+        {
+          center: new BMapGL.Point(116.307092, 40.054922),
+          zoom: 20,
+          tilt: 50,
+          heading: 0,
+          percentage: 0,
+        },
+        {
+          center: new BMapGL.Point(116.307631, 40.055391),
+          zoom: 21,
+          tilt: 70,
+          heading: 0,
+          percentage: 0.1,
+        },
+        {
+          center: new BMapGL.Point(116.306858, 40.057887) /* 中心点 */,
+          zoom: 21 /* 焦距 */,
+          tilt: 70 /* 倾斜 */,
+          heading: 0 /* 旋转 */,
+          percentage: 0.25 /* 动画进度 */,
+        },
+        {
+          center: new BMapGL.Point(116.306858, 40.057887),
+          zoom: 21,
+          tilt: 70,
+          heading: -90,
+          percentage: 0.35,
+        },
+        {
+          center: new BMapGL.Point(116.307904, 40.058118),
+          zoom: 21,
+          tilt: 70,
+          heading: -90,
+          percentage: 0.45,
+        },
+        {
+          center: new BMapGL.Point(116.307904, 40.058118),
+          zoom: 21,
+          tilt: 70,
+          heading: -180,
+          percentage: 0.55,
+        },
+        {
+          center: new BMapGL.Point(116.308902, 40.055954),
+          zoom: 21,
+          tilt: 70,
+          heading: -180,
+          percentage: 0.75,
+        },
+        {
+          center: new BMapGL.Point(116.308902, 40.055954),
+          zoom: 21,
+          tilt: 70,
+          heading: -270,
+          percentage: 0.85,
+        },
+        {
+          center: new BMapGL.Point(116.307779, 40.055754),
+          zoom: 21,
+          tilt: 70,
+          heading: -360,
+          percentage: 0.95,
+        },
+        {
+          center: new BMapGL.Point(116.307092, 40.054922),
+          zoom: 20,
+          tilt: 50,
+          heading: -360,
+          percentage: 1,
+        },
+      ];
+      const opts = {
+        delay: 1000 /* 延迟时间 */,
+        duration: 3000 /* 动画持续时间 */,
+        interation: 2 /* 动画循环次数，'INFINITE' */,
+      };
+      /* 生成一个动画 */
+      const animation = new BMapGL.ViewAnimation(keyFrames, opts);
+      // map.startViewAnimation(animation);
+
+      /* 绑定click事件 */
+      document.querySelector('.start-btn').addEventListener('click', e => {
+        console.log('e', e);
+        map.startViewAnimation(animation);
+      })
+      document.querySelector('.end-btn').addEventListener('click', e2 => {
+        console.log('e2', e2);
+        map.cancelViewAnimation(animation);
+      })
+
+      /* 绑定animation事件 */
+      animation.addEventListener('animationstart', a1 => {
+        console.log('a1 -> animationstart', a1)
+      })
+      animation.addEventListener('animationiterations', a2 => {
+        console.log('a2 -> animationiterations', a2)
+      })
+      animation.addEventListener('animationend', a3 => {
+        console.log('a3 -> animationend', a3)
+      })
+      animation.addEventListener('animationcancel', a4 => {
+        console.log('a4 -> animationcancel', a4)
+      })
+
+
+    </script>
+  </body>
+</html>
