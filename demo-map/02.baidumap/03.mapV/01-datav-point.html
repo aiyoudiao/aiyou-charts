@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-datav-point 散点图</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <!-- 百度地图官方提供了一些加快开发的方法 -->
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+
+    <!-- 百度地图官方提供一个 mapv 的库 -->
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+
+    <!-- 百度地图官方提供一个 mapgl 的库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.54/dist/mapvgl.min.js"></script>
+
+    <!-- <script type="text/javascript" src="//api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script> -->
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      #map_container {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 这个id是固定的，这是common.js中指定的 -->
+    <div id="map_container" class="map_container"></div>
+    <script>
+      console.log(window.BMapGL);
+
+      const map = initBMap();
+      const data = initData(map);
+      setData({ map, data });
+
+      /* 初始化百度地图 */
+      function initBMap() {
+        const cityCenter = mapv.utilCityCenter.getCenterByCityName("湖北");
+        const map = initMap({
+          center: [cityCenter.lng, cityCenter.lat],
+          zoom: 10,
+          style: snowStyle,
+          tilt: 0,
+          heading: 0,
+        });
+
+        return map;
+      }
+
+      /* 准备数据源 */
+      function initData() {
+        let data = [];
+        let random = 700;
+        const cities = [
+          "北京",
+          "天津",
+          "上海",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+
+        while (random--) {
+          const cityCenter = mapv.utilCityCenter.getCenterByCityName(
+            cities[parseInt(Math.random() * cities.length)]
+          );
+          data.push({
+            geometry: {
+              type: "Point",
+              coordinates: [
+                cityCenter.lng - 2 + Math.random() * 4,
+                cityCenter.lat - 2 + Math.random() * 4,
+              ],
+            },
+            properties: {
+              sales: Math.random() * 100,
+            },
+          });
+        }
+
+        data = data.filter((_) => _.properties.sales > 50);
+        // console.log("上海：", cityCenter);
+        console.log("data:", data);
+        return data;
+      }
+
+      /* 绘制数据源 */
+      function setData({ map, data }) {
+        /* 1. 生成 mapvgl 视图 view */
+        const view = new mapvgl.View({ map });
+
+        /* 2.1 初始化一个Intensity 对象 */
+        const intensity = new mapvgl.Intensity({
+          min: 0,
+          max: 100,
+          minSize: 5,
+          maxSize: 30,
+          /* 渐变 */
+          gradient: {
+            0: "rgba(25, 66, 102, 0.8)",
+            0.3: "rgba(145, 102, 129, 0.8)",
+            0.7: "rgba(210, 131, 137, 0.8)",
+            1: "rgba(248, 177, 149, 0.8)",
+          },
+        });
+        /* 2.2 初始化 mapvgl PointLayer 对象 */
+        const pointLayer = new mapvgl.PointLayer({
+          size: function (data) {
+            // console.log("size target", data)
+            // return parseInt(data.properties.sales)
+            return intensity.getSize(data.properties.sales);
+          },
+          color: function (data) {
+            // console.log('color target', data)
+            return intensity.getColor(data.properties.sales);
+          },
+        });
+
+        /* 3. 将 Point 对象加入 view中 */
+        view.addLayer(pointLayer);
+
+        /* 4. 将 data 与 Point 进行绑定 */
+        pointLayer.setData(data);
+      }
+    </script>
+  </body>
+</html>

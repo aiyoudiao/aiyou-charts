@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-datav-line 飞线图</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <!-- 百度地图官方提供了一些加快开发的方法 -->
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+
+    <!-- 百度地图官方提供一个 mapv 的库 -->
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+
+    <!-- 百度地图官方提供一个 mapgl 的库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.54/dist/mapvgl.min.js"></script>
+
+    <!-- 与飞线图有关的 库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.72/dist/mapvgl.threelayers.min.js"></script>
+
+    <!-- <script type="text/javascript" src="//api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script> -->
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      #map_container {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 这个id是固定的，这是common.js中指定的 -->
+    <div id="map_container" class="map_container"></div>
+    <script>
+      console.log(window.BMapGL);
+
+      const map = initBMap();
+      const data = initData(map);
+      setData({ map, data });
+
+      /* 初始化百度地图 */
+      function initBMap() {
+        const cityCenter = mapv.utilCityCenter.getCenterByCityName("上海");
+        const map = initMap({
+          center: [cityCenter.lng, cityCenter.lat],
+          zoom: 6,
+          style: purpleStyle,
+          tilt: 60,
+          heading: 0,
+        });
+
+        return map;
+      }
+
+      /* 准备数据源 */
+      function initData() {
+        const data = [];
+        const cities = [
+          "北京",
+          "天津",
+          "上海",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+        let randomCount = 100;
+
+        /* 生成贝塞尔曲线坐标集 */
+        /* 1. 实例化贝塞尔曲线类 */
+        const curve = new mapvgl.BezierCurve();
+
+        while (randomCount--) {
+          /* 2. 设置起始和终点的坐标 */
+          const start = mapv.utilCityCenter.getCenterByCityName(
+            cities[parseInt(Math.random() * cities.length)]
+          );
+          const end = mapv.utilCityCenter.getCenterByCityName(
+            cities[parseInt(Math.random() * cities.length)]
+          );
+          curve.setOptions({
+            start: [start.lng, start.lat],
+            end: [end.lng, end.lat],
+          });
+
+          /* 3. 生成贝塞尔曲线的坐标集 */
+          const curveData = curve.getPoints();
+          // console.log("curveData", curveData);
+
+          data.push({
+            geometry: {
+              type: "LineString",
+              coordinates: curveData,
+            },
+            properties: {
+              count: Math.random()
+            }
+          });
+        }
+
+        return data;
+      }
+
+      /* 绘制数据源 */
+      function setData({ map, data }) {
+        /* 1. 初始化图层 */
+        const view = new mapvgl.View({ map });
+
+        /* 2. 初始化飞线对象 */
+        const flyLine = new mapvgl.FlyLineLayer({
+          color: "rgba(33, 242, 214, 0.3)" /* 底线的颜色 */,
+          // textureColor: "#ff0000" /* 飞线动画的颜色 */,
+          textureColor (data) {
+            return data.properties.count > 0.5 ? '#ff0000' : '#56ccdd'
+          },
+          textureWidth: 20 /* 飞线动画的宽度 */,
+          textureHeight: 80 /* 飞线动画占底线长度的百分之多少 */,
+          style: "chaos" /* 飞线的动画方式 */,
+          step: 0.5 /* 飞线动画的速率 */,
+        });
+
+        /* 3. 将飞线对象添加到图层中 */
+        view.addLayer(flyLine);
+
+        /* 4. 将飞线对象与数据源绑定 */
+        flyLine.setData(data);
+      }
+    </script>
+  </body>
+</html>

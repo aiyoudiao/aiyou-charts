@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03-datav-line-cool 炫酷-飞线图</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <!-- 百度地图官方提供了一些加快开发的方法 -->
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+
+    <!-- 百度地图官方提供一个 mapv 的库 -->
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+
+    <!-- 百度地图官方提供一个 mapgl 的库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.54/dist/mapvgl.min.js"></script>
+
+    <!-- 与飞线图有关的 库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.72/dist/mapvgl.threelayers.min.js"></script>
+
+    <!-- <script type="text/javascript" src="//api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script> -->
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      #map_container {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 这个id是固定的，这是common.js中指定的 -->
+    <div id="map_container" class="map_container"></div>
+    <script>
+      console.log(window.BMapGL);
+
+      const map = initBMap();
+      const data = initData(map);
+      setData({ map, data });
+
+      /* 初始化百度地图 */
+      function initBMap() {
+        const cityCenter = mapv.utilCityCenter.getCenterByCityName("北京");
+        const map = initMap({
+          center: [cityCenter.lng, cityCenter.lat],
+          zoom: 5,
+          style: purpleStyle,
+          tilt: 0,
+          heading: 0,
+        });
+
+
+
+        return map;
+      }
+
+      /* 准备数据源 */
+      function initData() {
+        const data = [];
+        const cities = [
+          "北京",
+          "天津",
+          "上海",
+          "重庆",
+          "石家庄",
+          "太原",
+          "呼和浩特",
+          "哈尔滨",
+          "长春",
+          "沈阳",
+          "济南",
+          "南京",
+          "合肥",
+          "杭州",
+          "南昌",
+          "福州",
+          "郑州",
+          "武汉",
+          "长沙",
+          "广州",
+          "南宁",
+          "西安",
+          "银川",
+          "兰州",
+          "西宁",
+          "乌鲁木齐",
+          "成都",
+          "贵阳",
+          "昆明",
+          "拉萨",
+          "海口",
+        ];
+        let randomCount = 100;
+        const targetCity = mapv.utilCityCenter.getCenterByCityName('北京')
+        const curve = new mapvgl.BezierCurve();
+
+        cities.slice(1).forEach((v, i, all) => {
+          const startCity = mapv.utilCityCenter.getCenterByCityName(v);
+          curve.setOptions({
+            start: [startCity.lng, startCity.lat],
+            end: [targetCity.lng, targetCity.lat]
+          })
+
+          const curveData = curve.getPoints();
+          data.push({
+            geometry: {
+              type: 'LineString',
+              coordinates: curveData
+            }
+          })
+        })
+        
+        console.log(data)
+        return data;
+      }
+
+      /* 绘制数据源 */
+      function setData({ map, data }) {
+        /* 1. 初始化图层 */
+        const view = new mapvgl.View({ map });
+
+        const lineLayer = new mapvgl.LineLayer({
+          color: 'rgba(55, 50, 250, 0.3)'
+        });
+
+        view.addLayer(lineLayer);
+        lineLayer.setData(data);
+
+        /* 官网中找不到，只能从一些示例demo中才能找到 */
+        var linePointLayer = new mapvgl.LinePointLayer({
+            size: 8, /* 点的大小 */
+            speed: 20, /* 点的步长 */
+            color: 'rgba(255, 255, 0, 0.6)', /* 点的颜色 */
+            animationType: mapvgl.LinePointLayer.ANIMATION_TYPE_SMOOTH, /* 动画类型 */
+            shapeType: mapvgl.LinePointLayer.SHAPE_TYPE_CIRCLE, /* 点的形状 */
+            blend: 'lighter' /* 点交汇时的处理方式 */
+        });
+
+        view.addLayer(linePointLayer)
+        linePointLayer.setData(data)
+
+      }
+    </script>
+  </body>
+</html>

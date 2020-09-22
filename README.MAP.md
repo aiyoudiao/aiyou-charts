@@ -213,3 +213,82 @@ document.getElementById("hide-point").addEventListener("click", function (e) {
 2. 弹窗：绑定事件，弹出百度弹窗
 3. 普通动画：动画帧，开始、结束、取消、迭代事件。地图动画和CSS动画帧类似
 4. 轨迹动画：折线集合，轨迹动画类。轨迹图要知道足够多的point，它是由足够多的点组合成的折线段。
+
+### MapV and MapVGL
+
+[mapv官方文档](https://mapv.baidu.com/gl/docs/index.html)
+[边绑定算法](https://zhuanlan.zhihu.com/p/94155959)
+[墨卡托坐标系](https://baike.baidu.com/item/%E5%A2%A8%E5%8D%A1%E6%89%98%E6%8A%95%E5%BD%B1/5477927?fr=aladdin)
+
+百度官方文档是不够详细的，MapV经过了一轮升级，但很多案例是通过老版本来实现的。
+
+通过地图数据可视化可以很快的知道**想看的那些数据集中的趋势和规律**。
+
+1. mapv/01-datav-point
+2. mapv/02-datev-line
+3. mapv/03-datev-line-cool-demo
+4. mapv/03-datev-line-cool
+5. mapv/03-datev-line-cool2
+6. mapv/03-datev-shape
+
+<details>
+
+<summary>mapv/01-datav-point</summary>
+
+1. 引入官方提供的一系列脚本
+2. 使用官方提供的common.js 来快速初始化一个地图map对象，然后通过传入的style，快速给地图定制一个样式。
+3. 通过mapv这个工具类提供的一个方法，快速通过名称找到这个点坐标，从而初始化中心点。
+4. 初始化数据，填入一些中心城市的名称，然后通过mapv的方法，快速拿到它们的坐标点，然后通过随机值来计算它们的偏移量，最后拿到一些坐标点。
+5. 给这些数据添加一些随机的销售额数据。
+6. 绘制散点图之前，通过mapvgl生成一个视图，在视图中初始化一个Intensity对象  通过这个对象来控制散点的大小和颜色，它提供两个API，getSize和getColor。
+7. 初始化PointLayer时，通过Intensity对象来结合销售额数据从而获取PointLayer的size和color。通过在Intensity对象设置合适的限制，来控制 点 和 颜色 。
+8. 将PointLayer对象加入view中去，同时也将PointLayer与数据绑定。
+
+</details>
+
+<details>
+
+<summary>mapv/02-datev-line</summary>
+
+1. 引入mapv、mapvgl等相关的脚本
+2. 初始化地图对象，初始化数据，生成贝塞尔曲线的坐标集
+3. 初始化图层，初始化飞线对象，把飞线对象添加到图层中，让飞线对象与数据源绑定
+
+</details>
+
+<details>
+
+<summary>mapv/03-datev-line-cool-demo</summary>
+
+1. 炫酷飞线图，mapv老版本
+
+</details>
+
+<details>
+
+<summary>mapv/03-datev-line-cool</summary>
+
+1. 引入mapv、mapvgl等相关的脚本
+2. 初始化地图对象，初始化数据，生成贝塞尔曲线的坐标集
+3. 初始化图层，初始化飞线对象，把飞线对象添加到图层中，让飞线对象与数据源绑定
+4. 初始化动态点对象，将动态点对象添加到图层中，让动态点对象与数据源绑定
+
+</details>
+
+<summary>mapv/03-datev-line-cool2</summary>
+
+1. 引入mapv、mapvgl等相关的脚本
+2. 初始化地图对象，初始化数据，生成点和面，然后调用mapv的边绑定算法，获取坐标点。
+3. 初始化图层，初始化飞线对象，把飞线对象添加到图层中，让飞线对象与数据源绑定
+4. 初始化动态点对象，将动态点对象添加到图层中，让动态点对象与数据源绑定
+
+</details>
+
+<summary>04-datav-shape</summary>
+
+1. 引入mapv、mapvgl等相关的脚本
+2. 初始化地图对象，初始化数据，将数据转换成墨卡托坐标
+3. 初始化图层，初始化多边形对象，让多边形支持选中、选中变色、悬浮选中、单击事件。
+4. 把多边形对象添加到图层中，让多边形对象与数据源绑定
+
+</details>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>04-datav-shape 绘制3D建筑</title>
+    <script
+      type="text/javascript"
+      src="https://api.map.baidu.com/api?type=webgl&v=1.0&ak=G1LFyjrNGIkns5OfpZnrCGAKxpycPLwb"
+    ></script>
+    <!-- 百度地图官方提供了一些加快开发的方法 -->
+    <script src="https://mapv.baidu.com/gl/examples/static/common.js"></script>
+
+    <!-- 百度地图官方提供一个 mapv 的库 -->
+    <script src="https://mapv.baidu.com/build/mapv.js"></script>
+
+    <!-- 百度地图官方提供一个 mapgl 的库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.54/dist/mapvgl.min.js"></script>
+
+    <!-- 与飞线图有关的 库 -->
+    <script src="https://code.bdstatic.com/npm/mapvgl@1.0.0-beta.72/dist/mapvgl.threelayers.min.js"></script>
+
+    <!-- <script type="text/javascript" src="//api.map.baidu.com/library/TrackAnimation/src/TrackAnimation_min.js"></script> -->
+
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        margin: 0;
+        position: relative;
+      }
+
+      #map_container {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* 隐藏logo和版权图标 */
+      .anchorBL,
+      .BMap_cpyCtrl {
+        display: none;
+      }
+
+      /* 显示zoom，也可以修改它的位置，但是不太友好 */
+      .BMap_stdMpZoom {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 这个id是固定的，这是common.js中指定的 -->
+    <div id="map_container" class="map_container"></div>
+    <script>
+      console.log(window.BMapGL);
+
+      const map = initBMap();
+      // const data = initData();
+      initData().then((data) => {
+        setData({ map, data });
+      });
+
+      /* 初始化百度地图 */
+      function initBMap() {
+        const cityCenter = mapv.utilCityCenter.getCenterByCityName("北京");
+        const map = initMap({
+          // center: [cityCenter.lng, cityCenter.lat],
+          // center: [116.392394, 39.910683],
+          center: [106.540547, 29.564858],
+          zoom: 17,
+          style: purpleStyle,
+          tilt: 80,
+          heading: -45.3,
+        });
+
+        return map;
+      }
+
+      /* 初始化数据源 */
+      // function initData() {
+      //   const data = [
+      //     {
+      //       geometry: {
+      //         type: "Polygon",
+      //         /* 多边形的坐标是三维数组 */
+      //         coordinates: [
+      //           [
+      //             [12958287.560934239, 4826420.121990554], // [116.392394, 39.910683],
+      //             [12959801.63393129, 4828874.558443741], // [116.405976, 39.927727],
+      //             [12961481.9187227, 4826328.322460731], // [116.420996, 39.910351],
+      //           ],
+      //         ],
+      //       },
+      //       properties: {
+      //         height: 500, // 多边形高度
+      //       },
+      //     },
+      //   ];
+
+      //   return data;
+      // }
+
+      function initData() {
+        // const data = []
+        return fetch(
+          "https://www.youbaobao.xyz/datav-res/examples/chongqing.json"
+        )
+          .then((result) => result.json())
+          .then((result) => {
+            console.log("result", result);
+            const polygons = [];
+            const len = result.length;
+            for (let i = 0; i < len; i++) {
+              const line = result[i];
+              const polygon = [];
+              /* 转换成墨卡托坐标 */
+              const pt = [line[1] * 512, line[2] * 512];
+              for (let j = 3; j < line.length; j += 2) {
+                pt[0] += line[j] / 100 / 2;
+                pt[1] += line[j + 1] / 100 / 2;
+                polygon.push([pt[0], pt[1]]);
+              }
+
+              polygons.push({
+                geometry: {
+                  type: "Polygon",
+                  coordinates: [polygon],
+                },
+                properties: {
+                  height: line[0] / 2,
+                },
+              });
+            }
+
+            console.log("polygons", polygons);
+            return polygons;
+          });
+
+        // return data;
+      }
+
+      /* 设置数据源 */
+      function setData({ map, data }) {
+        const view = new mapvgl.View({ map });
+        const shapeLayer = new mapvgl.ShapeLayer({
+          color: "blue",
+          opacity: 0.2,
+          // style: "normal",
+          // style: "windowAnimation",
+          style: "gradual",
+          blend: "lighter",
+          riseTime: 10000,
+          enablePicked: true /* 支持选中 */,
+          selectedIndex: -1 /* 默认选中项为 -1，也就是没有选中项 */,
+          selectedColor: "red" /* 选中的颜色为红色 */,
+          autoSelect: true /* 鼠标悬浮的时候自动选中 */,
+          onClick(e) {
+            console.log("e", e);
+          },
+        });
+        view.addLayer(shapeLayer);
+        shapeLayer.setData(data);
+      }
+    </script>
+  </body>
+</html>
