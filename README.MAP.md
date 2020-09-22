@@ -275,6 +275,7 @@ document.getElementById("hide-point").addEventListener("click", function (e) {
 
 </details>
 
+<details>
 <summary>mapv/03-datev-line-cool2</summary>
 
 1. 引入mapv、mapvgl等相关的脚本
@@ -283,6 +284,8 @@ document.getElementById("hide-point").addEventListener("click", function (e) {
 4. 初始化动态点对象，将动态点对象添加到图层中，让动态点对象与数据源绑定
 
 </details>
+
+<details>
 
 <summary>04-datav-shape</summary>
 
