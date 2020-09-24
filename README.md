@@ -1,9 +1,14 @@
 # aiyou-charts
+
 玩数据可视化
+
+## 效果
+
+![基础示例](./md-source/demo.png)
 
 ## 前端可视化解决方案
 
-![众多可视化解决方案](./md-source/可视化解决方案-20200816095839.png)
+![众多可视化解决方案](./md-source/view.png)
 
 HightCharts、AntV、Echarts 三大解决方案对比。
 
@@ -15,7 +20,6 @@ HightCharts、AntV、Echarts 三大解决方案对比。
 
 1. basic
 2. 图片压缩
-
 
 <details>
 <summary>01-basic</summary>
@@ -31,7 +35,6 @@ HightCharts、AntV、Echarts 三大解决方案对比。
 
 </details>
 
-
 <details>
 <summary>02-canvas-compress</summary>
 
@@ -43,8 +46,6 @@ HightCharts、AntV、Echarts 三大解决方案对比。
 6. 根据图片的原始宽高除以最大宽高来计算图片的压缩比率，通过压缩比率来重置压缩后的图片宽高。当图片原始宽高小于最大宽高时可以不进行压缩，也可以将图片新的宽高设置为原始宽高。创建画布对象，设置它的宽高，创建画布上下文，将图片绘制到画布上去，调用canvas的toBase64URL方法，同时设置压缩比率和图片类型。最终调用回调函数，将压缩后的图片的base64码传到回调函数中去。最后会调用`uploadToServer`方法，将base64码传递到服务上。
 
 </details>
-
-
 
 ### svg 矢量图
 
