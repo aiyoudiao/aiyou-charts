@@ -10,6 +10,7 @@ import './style/index.css'
 Vue.config.productionTip = false
 
 Vue.prototype.$echarts = Echarts
+Vue.prototype.$bmap = window.BMapGL
 
 new Vue({
   router,
