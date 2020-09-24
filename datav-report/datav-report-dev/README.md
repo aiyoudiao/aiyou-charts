@@ -260,3 +260,21 @@ liquidFillView.js：
 [配置项文档](https://github.com/ecomfe/echarts-wordcloud#usage)
 
 词云图的配置项非常少，比水球图少很多
+
+## git stash
+
+[参考链接](https://www.cnblogs.com/zndxall/archive/2018/09/04/9586088.html)
+
+git stash 用于开发还未完成，但是需要切换分支时，可以暂存你git add 过的内容，这时候你就可以大胆切换分支了，
+之后你还可以切换回原来的分支，再通过 git stash apply取回来。
+
+常用命令：
+
+1. 暂存一个 `git stash save "备注名称"`
+2. 显示暂存列表 `git stash list`
+3. 显示索引为0的暂存记录 `git stash show "stash@{0}"`
+4. 显示索引为0的暂存记录详情 `git stash show -p "stash@{0}"`
+5. 使用索引为0的暂存记录 `git stash apply "stash@{0}"`
+6. 以出栈的方式取出索引为0的暂存记录 `git stash pop "stash@{0}"`
+7. 丢掉索引为0的暂存记录 `git stash drop "stash@{0}"`
+8. 清空所有的暂存记录 `git stash clear`
